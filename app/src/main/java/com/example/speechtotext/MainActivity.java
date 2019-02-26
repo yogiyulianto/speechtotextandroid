@@ -1,7 +1,6 @@
 package com.example.speechtotext;
 
 import android.Manifest;
-import android.arch.core.util.Function;
 import android.content.Intent;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         recordbtn = findViewById(R.id.mainButton);
 
         String[] PERMISSION = {Manifest.permission.RECORD_AUDIO};
-        if (!Function.hasPermission(this, PERMISSION)){
+        if (!Function.hasPermissions(this, PERMISSION)){
             ActivityCompat.requestPermissions(this, PERMISSION, REQUEST_PERMISSION_KEY);
         }
 
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     @Override
-    public void onReadyForSpeech(Bundle params) {
+    public void onReadyForSpeech(Bundle arg0) {
         Log.d("Log", "onReadyForSpeech");
     }
 
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     @Override
-    public void onError(int error) {
+    public void onError(int errorCode) {
         String errorMessage = getErrorText(errorCode);
         Log.d("Log", "FAILED" + errorMessage);
         progressBar.setVisibility(View.INVISIBLE);
@@ -117,11 +116,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     @Override
     public void onResults(Bundle results) {
-        Log.d("Log", "onResults")
+        Log.d("Log", "onResults");
     }
 
     @Override
-    public void onPartialResults(Bundle partialResults) {
+    public void onPartialResults(Bundle arg0) {
         Log.d("Log", "onPartialResults");
         ArrayList<String> matches = arg0.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         String text = "";
@@ -130,14 +129,14 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     @Override
-    public void onEvent(int eventType, Bundle params) {
+    public void onEvent(int arg0, Bundle arg1) {
         Log.d("Log", "onEvent");
     }
 
     public static String getErrorText(int errorCode){
         String message;
         switch (errorCode){
-            case SpeechRecognizer.ERROR_AUDIO;
+            case SpeechRecognizer.ERROR_AUDIO:
                 message = "Audio recording error";
                 break;
             case SpeechRecognizer.ERROR_CLIENT:
@@ -158,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
                 message = "recognizer is busy";
                 break;
-            case SpeechRecognizer.ERROR_SERVER;
+            case SpeechRecognizer.ERROR_SERVER:
                 message = " server error";
                 break;
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
